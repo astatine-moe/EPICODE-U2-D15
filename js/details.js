@@ -1,6 +1,9 @@
 const urlParams = new URLSearchParams(window.location.search);
 const _id = urlParams.get("_id");
 const genre = urlParams.get("genre");
+
+//url will look smth like details.html?_id=572837528752&genre=Horror
+
 $(function () {
     request
         .get(uri + genre)
@@ -10,8 +13,8 @@ $(function () {
                 window.location.href = "index.html";
             } else {
                 const movie = data.find((item) => {
-                    return item._id === _id;
-                });
+                    return item._id === _id; //if movie id in the array equals the ID we want, return the movie
+                }); //Find the movie in the array of movies.
                 $("#movie-holder img").attr("src", movie.imageUrl);
                 $("[data-replace='movieName']").text(movie.name);
                 $("[data-replace='movieDesc']").text(movie.description);
@@ -27,10 +30,12 @@ $(function () {
                 $("#imageurl").val(movie.imageUrl);
 
                 $("#deleteMovie").data("_id", _id);
+
+                // Above i'm using jQuery to replace values & text in HTML. jQuery makes it easier cause I don't have to manually loop every element
             }
         })
         .catch((err) => {
-            window.location.href = "index.html";
+            window.location.href = "index.html"; //redirect to index.html
         });
 });
 
@@ -54,7 +59,7 @@ $("#editMovieForm").on("submit", function (e) {
     request
         .put(uri + _id, data)
         .then((data) => {
-            window.location.reload();
+            window.location.reload(); //reload page
         })
         .catch((err) => {
             alert("Error editing movie");
@@ -63,19 +68,18 @@ $("#editMovieForm").on("submit", function (e) {
 });
 
 $("#deleteMovie").on("click", function (e) {
-    let sure = confirm("Are you sure?");
-    let id = $(this).data("_id");
-    console.log(id);
+    let sure = confirm("Are you sure?"); //Prompt user, if they say yes, sure = true
+    let id = $(this).data("_id"); //get ID from button (data-_id)
     if (sure) {
         request
             .delete(uri + id)
             .then((data) => {
                 alert("Successfully deleted movie!");
-                window.location.href = "index.html";
+                window.location.href = "index.html"; // redirect to index.html
             })
             .catch((err) => {
                 alert("Failed to delete movie, check console!");
-                console.error(err);
+                console.error(err); //log error in console
             });
     }
 });

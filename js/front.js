@@ -1,8 +1,9 @@
-const $genres = $("#genres");
+const $genres = $("#genres"); //select #genres using jQuery (similar to document.querySelector('#genres#'); )
 
 $(function () {
     request.get(uri).then(async (genres) => {
         if (genres.length) {
+            //if genres is an array
             let html = ``;
             console.log(genres);
             for (const genre of genres) {
@@ -12,7 +13,7 @@ $(function () {
                     <div id="${genre}" class="carousel-slide" data-bs-ride="carousel">
                         <div class="carousel-inner">`;
 
-                const movies = await request.get(uri + genre);
+                const movies = await request.get(uri + genre); //get movies based on genre
 
                 html += `<div class="carousel-item active">
                     <div class="movie-row">
@@ -49,7 +50,7 @@ $(function () {
                 <span class="visually-hidden">Next</span>
             </button></div></div></div>`;
             }
-            $genres.html(html);
+            $genres.html(html); //append html
         } else {
             $genres.html("No genres found");
         }

@@ -8,6 +8,8 @@ $("#movie-form").on("submit", (e) => {
     const imageURL = inputs.find("#imageurl").val().trim();
     const category = inputs.find("#category").find(":selected").val();
 
+    //.trim() removes whitespace on either send of a trim so "  hi  ".trim() becomes  "hi"
+
     const data = {
         name,
         description: desc,
@@ -20,7 +22,7 @@ $("#movie-form").on("submit", (e) => {
         .then((data) => {
             console.log(data);
             alert("Created movie successfully!");
-            window.location.reload();
+            window.location.reload(); //reload page
         })
         .catch((err) => {
             alert("Error creating movie");
